@@ -1,31 +1,24 @@
 const express=require("express");
 const dotenv=require("dotenv");
-const resInfo=require('./routes/resInfo');
+const client=require("./config/connect");
+const { path } = require("express/lib/application");
 const app=express();
+app.use(express.json())
+
 const PORT=process.env.PORT || 5000
 //load config
-dotenv.config({path:'./config/.env'})
+dotenv.config({path:'./config/config.env'})
 //db connection
 
-const { Client } = require('pg');
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+app.use("/add",require("./routes/addRes"))
 
-client.connect((err)=>{
-    if(err){
-        console.log(err);
-        throw err;
-    }
-    console.log("connected");
-});
+app.get("/",(req,res)=>{
+    res.send(__dirname);
+})
 
-
-app.use('/',resInfo)
-
-
-app.listen(PORT,()=>{console.log(`SERVER RUNNING ON:${PORT}`);});
+client.connect().then(() => {
+        app.listen(PORT, () =>
+            console.log(`listening on ${PORT}`)
+        );
+    })
