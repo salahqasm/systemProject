@@ -11,7 +11,7 @@ dotenv.config({path:'./config/config.env'})
 
 
 app.use("/add",require("./routes/addRes"))
-
+app.use("/",require("./routes/resInfo"))
 
 client.connect().then(() => {
         app.listen(PORT, () =>
