@@ -10,8 +10,11 @@ dotenv.config({path:'./config/config.env'})
 
 
 
-app.use("/add",require("./routes/addRes"))
-app.use("/",require("./routes/resInfo"))
+app.use("/add",require("./routes/addRes")) //route for adding a new restaurant
+app.use("/getrestaurants",require("./routes/getRes")) // route for getting all restaurants rows
+app.use("/getdishes",require("./routes/getDishes")) //get all dishes
+
+
 
 client.connect().then(() => {
         app.listen(PORT, () =>
